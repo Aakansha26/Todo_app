@@ -1,6 +1,28 @@
 package com.example.todofinal
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class SharedViewModel: ViewModel() {
+class SharedViewModel(application: Application): AndroidViewModel(application) {
+
+    val allTodos: LiveData<List<Todo>>
+    private val repository: Repository
+    init {
+
+        val dao = TodoDatabase.getDatabase(application).getTodoDao()
+        repository = Repository(dao)
+        allTodos = repository.alltodos
+
+    }
+
+    fun deleteTodo(todo: Todo) = viewModelScope.launch(Dispatchers.IO) {
+         repository.delete(todo)
+    }
+
+    fun insertTodo(todo: Todo) = viewModelScope.launch(Dispatchers.IO) {
+        repository.insert(todo)
+    }
+
 }

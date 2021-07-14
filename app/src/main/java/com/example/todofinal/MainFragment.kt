@@ -14,9 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todofinal.databinding.FragmentMainBinding
 
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), ITodoRVAdapter {
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -24,25 +25,31 @@ class MainFragment : Fragment() {
 
         val binding = DataBindingUtil.inflate<FragmentMainBinding>(inflater,R.layout.fragment_main, container, false)
 
-        val todolist: ArrayList<Todo> = ArrayList();
-        todolist.add(Todo("Get vegetables", "ask mom"))
-        todolist.add(Todo("eat fruits", "ask mom"))
-        todolist.add(Todo("study", "go to library"))
-
         //Initialising recycler adapter
-        val recyclerAdapter = RecyclerAdapter(todolist)
+        val recyclerAdapter = RecyclerAdapter(this)
         binding.recyclerView.apply {
             adapter = recyclerAdapter
 //            addItemDecoration(DividerItemDecoration(this@, DividerItemDecoration.VERTICAL))
         }
 
+        sharedViewModel.allTodos.observe(viewLifecycleOwner, { list ->
+            list ?.let {
+                recyclerAdapter.updatelist(it)
+            }
+        })
+
+
         binding.floatingActionButton.setOnClickListener { view:View ->
             view.findNavController().navigate(R.id.action_mainFragment_to_todoFragment)
         }
+
         return binding.root
 
     }
 
+    override fun onItemClicked(todo: Todo) {
+       sharedViewModel.deleteTodo(todo)
+    }
 
 
 }
