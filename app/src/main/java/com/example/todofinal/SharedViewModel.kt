@@ -32,6 +32,10 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
 
     fun updateTodo(todo: Todo) = viewModelScope.launch(Dispatchers.IO) {
         repository.update(todo)
+
+    }
+
+    fun resetCurrentTodo() {
         currentTodo.value = null
     }
 }

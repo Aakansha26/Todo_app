@@ -1,13 +1,16 @@
 package com.example.todofinal
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.todofinal.databinding.FragmentMainBinding
 
 
@@ -28,7 +31,7 @@ class MainFragment : Fragment(), IListenerMain {
         val recyclerAdapter = RecyclerAdapter(this)
         binding.recyclerView.apply {
             adapter = recyclerAdapter
-//            addItemDecoration(DividerItemDecoration(this@, DividerItemDecoration.VERTICAL))
+            addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
         }
 
         sharedViewModel.allTodos.observe(viewLifecycleOwner, { list ->
@@ -53,11 +56,17 @@ class MainFragment : Fragment(), IListenerMain {
 
     override fun onDeleteClicked(todo: Todo) {
         sharedViewModel.deleteTodo(todo)
+        Toast.makeText(activity, "Todo Deleted Successfully!", Toast.LENGTH_SHORT).show()
     }
 
     override fun onEditClicked(view: View, todo: Todo) {
         view.findNavController().navigate(R.id.action_mainFragment_to_todoFragment)
         sharedViewModel.changeCurrentTodo(todo)
+    }
+
+    override fun onTodoCompleted(todo: Todo) {
+        Log.i("main fragment", "deleted")
+        Toast.makeText(activity, "Todo '${todo.todotitle}' Completed Successfully!", Toast.LENGTH_SHORT).show()
     }
 
 

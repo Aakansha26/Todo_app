@@ -31,6 +31,12 @@ class RecyclerAdapter(val listenermain: IListenerMain):
             listenermain.onEditClicked(view, alltodos[viewHolder.adapterPosition])
 
         }
+
+        viewHolder.todotitle.setOnClickListener() {
+            if(viewHolder.todotitle.isChecked)
+                listenermain.onTodoCompleted(alltodos[viewHolder.adapterPosition])
+        }
+
         return viewHolder
     }
 
@@ -57,5 +63,6 @@ class RecyclerAdapter(val listenermain: IListenerMain):
 interface IListenerMain {
     fun onDeleteClicked(todo: Todo)
     fun onEditClicked(view: View, todo: Todo)
+    fun onTodoCompleted(todo: Todo)
 }
 

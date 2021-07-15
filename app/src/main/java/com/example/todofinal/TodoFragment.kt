@@ -34,9 +34,9 @@ class TodoFragment : Fragment() {
         binding.button.setOnClickListener { view:View ->
             val todotitle = binding.editTextTodoTitle.text.toString()
             val todomsg = binding.editTextTodoMsg.text.toString()
-
+            val updatedTodo = sharedViewModel.currentTodo.value
             Log.i("Todofragment1", "hii")
-            if (sharedViewModel.currentTodo.value == null) {
+            if ( updatedTodo == null) {
                 if(todotitle.isNotEmpty()) {
                     sharedViewModel.insertTodo(Todo(todotitle, todomsg))
                     Log.i("Todofragment1", "todo created")
@@ -46,13 +46,13 @@ class TodoFragment : Fragment() {
                 }
             }
             else {
-                val updatedTodo = sharedViewModel.currentTodo.value
+
                 Log.i("Todofragment1", updatedTodo.toString())
                 updatedTodo?.todotitle = todotitle
                 updatedTodo?.todomsg = todomsg
                 updatedTodo?. let {
                     if(todotitle.isNotEmpty()) {
-                        sharedViewModel.updateTodo(updatedTodo)
+                        sharedViewModel.updateTodo(updatedTodo!!)
                     }
                 }
 
@@ -62,7 +62,12 @@ class TodoFragment : Fragment() {
 
             hideKeyboard(mainActivity)
             view.findNavController().navigate(R.id.action_todoFragment_to_mainFragment)
-            Toast.makeText(activity, "Todo Added Successfully!", Toast.LENGTH_SHORT).show()
+            if (updatedTodo == null)
+                Toast.makeText(activity, "Todo Added Successfully!", Toast.LENGTH_SHORT).show()
+            else
+                Toast.makeText(activity, "Todo Updated Successfully!", Toast.LENGTH_SHORT).show()
+
+
         }
 
 
@@ -80,7 +85,15 @@ class TodoFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        mainActivity.supportActionBar?.title = "Create New Todo"
+        if(sharedViewModel.currentTodo.value == null)
+            mainActivity.supportActionBar?.title = "Create New Todo"
+        else
+            mainActivity.supportActionBar?.title = "Update Todo"
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        sharedViewModel.resetCurrentTodo()
     }
 
 
