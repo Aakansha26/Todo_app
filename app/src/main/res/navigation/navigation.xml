@@ -16,5 +16,9 @@
     <fragment
         android:id="@+id/todoFragment"
         android:name="com.example.todofinal.TodoFragment"
-        android:label="TodoFragment" />
+        android:label="TodoFragment" >
+        <action
+            android:id="@+id/action_todoFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>

@@ -20,7 +20,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
             android:ems="10"
-            android:hint="Todo message(optional)"
+            android:hint="Todo message (optional)"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

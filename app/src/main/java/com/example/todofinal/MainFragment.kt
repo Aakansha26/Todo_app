@@ -7,16 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todofinal.databinding.FragmentMainBinding
 
 
-class MainFragment : Fragment(), ITodoRVAdapter {
+class MainFragment : Fragment(), IListenerMain {
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
+    private lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,6 +22,7 @@ class MainFragment : Fragment(), ITodoRVAdapter {
     ): View? {
 
         val binding = DataBindingUtil.inflate<FragmentMainBinding>(inflater,R.layout.fragment_main, container, false)
+        mainActivity = this.activity as MainActivity
 
         //Initialising recycler adapter
         val recyclerAdapter = RecyclerAdapter(this)
@@ -47,8 +46,18 @@ class MainFragment : Fragment(), ITodoRVAdapter {
 
     }
 
-    override fun onItemClicked(todo: Todo) {
-       sharedViewModel.deleteTodo(todo)
+    override fun onResume() {
+        super.onResume()
+        mainActivity.supportActionBar?.title = "Todo App"
+    }
+
+    override fun onDeleteClicked(todo: Todo) {
+        sharedViewModel.deleteTodo(todo)
+    }
+
+    override fun onEditClicked(view: View, todo: Todo) {
+        view.findNavController().navigate(R.id.action_mainFragment_to_todoFragment)
+        sharedViewModel.changeCurrentTodo(todo)
     }
 
 
