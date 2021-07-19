@@ -15,6 +15,7 @@ class RecyclerAdapter(val listenermain: IListenerMain):
 
         val todotitle = itemView.findViewById<CheckBox>(R.id.todotitle_cb)
         val todomsg = itemView.findViewById<TextView>(R.id.todomsg_text)
+        val priority = itemView.findViewById<TextView>(R.id.priority_tv)
         val delete_button = itemView.findViewById<ImageView>(R.id.delete_button)
         val edit_button = itemView.findViewById<ImageView>(R.id.edit_button)
 
@@ -44,6 +45,7 @@ class RecyclerAdapter(val listenermain: IListenerMain):
         val todo = alltodos[position]
         holder.todotitle.text = todo.todotitle
         holder.todomsg.text = todo.todomsg
+        holder.priority.text = todo.priority
     }
 
     override fun getItemCount(): Int {

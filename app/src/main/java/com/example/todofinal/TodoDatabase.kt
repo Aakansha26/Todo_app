@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = arrayOf(Todo::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(Todo::class), version = 2, exportSchema = false)
 abstract class TodoDatabase: RoomDatabase() {
     abstract fun getTodoDao(): TodoDao
 
@@ -15,6 +17,13 @@ abstract class TodoDatabase: RoomDatabase() {
         @Volatile
         private var INSTANCE: TodoDatabase? = null
 
+        val migration_1_2: Migration = object: Migration(1,2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE Todo_table ADD COLUMN priority TEXT DEFAULT 'LOW' NOT NULL")
+            }
+
+        }
+
         fun getDatabase(context: Context): TodoDatabase {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database
@@ -23,7 +32,8 @@ abstract class TodoDatabase: RoomDatabase() {
                     context.applicationContext,
                     TodoDatabase::class.java,
                     "todo_database"
-                ).build()
+                ).addMigrations(migration_1_2)
+                    .build()
                 INSTANCE = instance
                 // return instance
                 instance
@@ -31,3 +41,4 @@ abstract class TodoDatabase: RoomDatabase() {
         }
     }
 }
+

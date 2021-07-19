@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.adapters.TextViewBindingAdapter.setText
@@ -14,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.example.todofinal.databinding.FragmentTodoBinding
+import kotlin.jvm.internal.MagicApiIntrinsics
 
 
 class TodoFragment : Fragment() {
@@ -31,18 +34,43 @@ class TodoFragment : Fragment() {
         binding = DataBindingUtil.inflate<FragmentTodoBinding>(inflater,R.layout.fragment_todo, container, false)
         mainActivity = this.activity as MainActivity
 
+        val spinner = binding.spinner
+
+        ArrayAdapter.createFromResource(
+            mainActivity,
+            R.array.priority_choices,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+
+        spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                println("error")
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val type = parent?.getItemAtPosition(position).toString()
+
+            }
+
+        }
+
         binding.button.setOnClickListener { view:View ->
             val todotitle = binding.editTextTodoTitle.text.toString()
             val todomsg = binding.editTextTodoMsg.text.toString()
+            val priority_value = spinner.selectedItem.toString()
+
             val updatedTodo = sharedViewModel.currentTodo.value
             Log.i("Todofragment1", "hii")
             if ( updatedTodo == null) {
                 if(todotitle.isNotEmpty()) {
-                    sharedViewModel.insertTodo(Todo(todotitle, todomsg))
+                    sharedViewModel.insertTodo(Todo(todotitle, todomsg, priority_value))
                     Log.i("Todofragment1", "todo created")
                 }
                 else {
-
+                    Toast.makeText(activity, "Todo Title cannot be empty", Toast.LENGTH_SHORT).show()
                 }
             }
             else {
@@ -50,9 +78,13 @@ class TodoFragment : Fragment() {
                 Log.i("Todofragment1", updatedTodo.toString())
                 updatedTodo?.todotitle = todotitle
                 updatedTodo?.todomsg = todomsg
+                updatedTodo?.priority = priority_value
                 updatedTodo?. let {
                     if(todotitle.isNotEmpty()) {
                         sharedViewModel.updateTodo(updatedTodo!!)
+                    }
+                    else {
+                        Toast.makeText(activity, "Todo Title cannot be empty", Toast.LENGTH_SHORT).show()
                     }
                 }
 
