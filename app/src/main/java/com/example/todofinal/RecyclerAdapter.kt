@@ -1,5 +1,7 @@
 package com.example.todofinal
 
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +48,15 @@ class RecyclerAdapter(val listenermain: IListenerMain):
         holder.todotitle.text = todo.todotitle
         holder.todomsg.text = todo.todomsg
         holder.priority.text = todo.priority
+
+        if(holder.priority.text == "Low")
+            holder.priority.setBackgroundResource(R.color.light_green)
+
+        if(holder.priority.text == "Medium")
+            holder.priority.setBackgroundResource(R.color.light_blue)
+
+        if(holder.priority.text == "High")
+            holder.priority.setBackgroundResource(R.color.light_orange)
     }
 
     override fun getItemCount(): Int {
@@ -54,7 +65,10 @@ class RecyclerAdapter(val listenermain: IListenerMain):
 
     fun updatelist(newlist: List<Todo>) {
         alltodos.clear()
-        alltodos.addAll(newlist)
+        newlist.sortedWith(ComparePriority).forEach {
+            Log.i("todo", it.priority)
+        }
+        alltodos.addAll(newlist.sortedWith(ComparePriority).reversed())
 
         notifyDataSetChanged()
     }

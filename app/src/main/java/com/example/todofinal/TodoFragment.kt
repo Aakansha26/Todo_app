@@ -63,7 +63,6 @@ class TodoFragment : Fragment() {
             val priority_value = spinner.selectedItem.toString()
 
             val updatedTodo = sharedViewModel.currentTodo.value
-            Log.i("Todofragment1", "hii")
             if ( updatedTodo == null) {
                 if(todotitle.isNotEmpty()) {
                     sharedViewModel.insertTodo(Todo(todotitle, todomsg, priority_value))
