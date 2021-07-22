@@ -3,22 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/viewPagerFragment">
 
-    <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.example.todofinal.MainFragment"
-        android:label="MainFragment">
-        <action
-            android:id="@+id/action_mainFragment_to_todoFragment"
-            app:destination="@id/todoFragment" />
-    </fragment>
     <fragment
         android:id="@+id/todoFragment"
         android:name="com.example.todofinal.TodoFragment"
         android:label="TodoFragment" >
         <action
-            android:id="@+id/action_todoFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            android:id="@+id/action_todoFragment_to_viewPagerFragment"
+            app:destination="@id/viewPagerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewPagerFragment"
+        android:name="com.example.todofinal.ViewPagerFragment"
+        android:label="fragment_view_pager"
+        tools:layout="@layout/fragment_view_pager" >
+        <action
+            android:id="@+id/action_viewPagerFragment_to_todoFragment"
+            app:destination="@id/todoFragment" />
     </fragment>
 </navigation>

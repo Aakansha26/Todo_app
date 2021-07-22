@@ -42,7 +42,7 @@ class MainFragment : Fragment(), IListenerMain {
 
 
         binding.floatingActionButton.setOnClickListener { view:View ->
-            view.findNavController().navigate(R.id.action_mainFragment_to_todoFragment)
+            view.findNavController().navigate(R.id.action_viewPagerFragment_to_todoFragment)
         }
 
         return binding.root
@@ -52,6 +52,7 @@ class MainFragment : Fragment(), IListenerMain {
     override fun onResume() {
         super.onResume()
         mainActivity.supportActionBar?.title = "Todo App"
+        Log.i("mainfragment", "onResumeCalled")
     }
 
     override fun onDeleteClicked(todo: Todo) {
@@ -60,7 +61,7 @@ class MainFragment : Fragment(), IListenerMain {
     }
 
     override fun onEditClicked(view: View, todo: Todo) {
-        view.findNavController().navigate(R.id.action_mainFragment_to_todoFragment)
+        view.findNavController().navigate(R.id.action_viewPagerFragment_to_todoFragment)
         sharedViewModel.changeCurrentTodo(todo)
     }
 

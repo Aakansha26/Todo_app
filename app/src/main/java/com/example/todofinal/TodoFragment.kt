@@ -36,6 +36,7 @@ class TodoFragment : Fragment() {
 
         val spinner = binding.spinner
 
+
         ArrayAdapter.createFromResource(
             mainActivity,
             R.array.priority_choices,
@@ -92,7 +93,7 @@ class TodoFragment : Fragment() {
             
 
             hideKeyboard(mainActivity)
-            view.findNavController().navigate(R.id.action_todoFragment_to_mainFragment)
+            view.findNavController().navigate(R.id.action_todoFragment_to_viewPagerFragment)
             if (updatedTodo == null)
                 Toast.makeText(activity, "Todo Added Successfully!", Toast.LENGTH_SHORT).show()
             else
