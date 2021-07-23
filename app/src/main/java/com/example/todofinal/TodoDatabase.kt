@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.todofinal.screens.Todo
 
 @Database(entities = arrayOf(Todo::class), version = 3, exportSchema = false)
 abstract class TodoDatabase: RoomDatabase() {

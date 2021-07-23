@@ -1,9 +1,6 @@
-package com.example.todofinal
+package com.example.todofinal.screens
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper.getMainLooper
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.example.todofinal.*
 import com.example.todofinal.databinding.FragmentMainBinding
 
 
@@ -26,7 +24,8 @@ class MainFragment : Fragment(), IListenerMain {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = DataBindingUtil.inflate<FragmentMainBinding>(inflater,R.layout.fragment_main, container, false)
+        val binding = DataBindingUtil.inflate<FragmentMainBinding>(inflater,
+            R.layout.fragment_main, container, false)
         mainActivity = this.activity as MainActivity
 
         //Initialising recycler adapter
@@ -53,7 +52,7 @@ class MainFragment : Fragment(), IListenerMain {
 
     override fun onResume() {
         super.onResume()
-        mainActivity.supportActionBar?.title = "Todo App"
+        mainActivity.supportActionBar?.title = getString(R.string.app_name)
     }
 
     override fun onDeleteClicked(todo: Todo) {

@@ -1,12 +1,14 @@
-package com.example.todofinal
+package com.example.todofinal.screens
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.example.todofinal.R
 import com.example.todofinal.databinding.ActivityMainBinding
-import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,6 +22,11 @@ class MainActivity : AppCompatActivity() {
         val navController = this.findNavController(R.id.navHostFragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
     }
 
     override fun onSupportNavigateUp(): Boolean {

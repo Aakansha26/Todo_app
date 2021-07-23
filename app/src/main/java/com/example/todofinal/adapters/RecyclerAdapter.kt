@@ -1,14 +1,13 @@
 package com.example.todofinal
 
-import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.example.todofinal.screens.Todo
 
 class RecyclerAdapter(val listenermain: IListenerMain):
     RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
@@ -42,7 +41,7 @@ class RecyclerAdapter(val listenermain: IListenerMain):
             viewHolder.todotitle.setChecked(true)
             Handler(Looper.getMainLooper()).postDelayed({
                 listenermain.onTodoCompleted(alltodos[viewHolder.adapterPosition])
-            }, 1000)
+            }, 1200)
 
 
         }

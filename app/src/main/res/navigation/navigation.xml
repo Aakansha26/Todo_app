@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/todoFragment"
-        android:name="com.example.todofinal.TodoFragment"
+        android:name="com.example.todofinal.screens.TodoFragment"
         android:label="TodoFragment" >
         <action
             android:id="@+id/action_todoFragment_to_viewPagerFragment"
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/viewPagerFragment"
-        android:name="com.example.todofinal.ViewPagerFragment"
+        android:name="com.example.todofinal.screens.ViewPagerFragment"
         android:label="fragment_view_pager"
         tools:layout="@layout/fragment_view_pager" >
         <action

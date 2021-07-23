@@ -1,5 +1,7 @@
 package com.example.todofinal
 
+import com.example.todofinal.screens.Todo
+
 class ComparePriority {
 
     companion object: Comparator<Todo> {

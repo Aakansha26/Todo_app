@@ -1,4 +1,4 @@
-package com.example.todofinal
+package com.example.todofinal.screens
 
 import android.os.Bundle
 import android.util.Log
@@ -6,9 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
+import com.example.todofinal.adapters.PagerAdapter
+import com.example.todofinal.R
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -26,12 +26,12 @@ class ViewPagerFragment : Fragment() {
         val pagerAdapter = PagerAdapter(this)
         viewPager.adapter = pagerAdapter
 
-        Log.i("viewpagerfrag", "inside")
+
         TabLayoutMediator(tabLayout, viewPager) {tab, position ->
             if(position == 0)
-                tab.text = "Undone"
+                tab.text = getString(R.string.tab1text)
             else
-                tab.text = "Completed"
+                tab.text = getString(R.string.tab2text)
         }.attach()
 
         return view

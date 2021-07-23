@@ -1,4 +1,4 @@
-package com.example.todofinal
+package com.example.todofinal.screens
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,8 +10,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.example.todofinal.*
 import com.example.todofinal.databinding.FragmentCompletedTodosBinding
-import com.example.todofinal.databinding.FragmentMainBinding
 
 class CompletedTodosFragment : Fragment(), IListenerCompletedTodo {
 
@@ -23,7 +23,8 @@ class CompletedTodosFragment : Fragment(), IListenerCompletedTodo {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding: FragmentCompletedTodosBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_completed_todos, container, false)
+        val binding: FragmentCompletedTodosBinding = DataBindingUtil.inflate(inflater,
+            R.layout.fragment_completed_todos, container, false)
         mainActivity = this.activity as MainActivity
 
         val recyclerAdapter = RecyclerAdapter2(this)
@@ -52,7 +53,7 @@ class CompletedTodosFragment : Fragment(), IListenerCompletedTodo {
 
     override fun onResume() {
         super.onResume()
-        mainActivity.supportActionBar?.title = "Todo App"
+        mainActivity.supportActionBar?.title = getString(R.string.app_name)
     }
 
 }

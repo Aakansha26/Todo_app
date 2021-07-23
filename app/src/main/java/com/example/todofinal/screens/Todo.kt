@@ -1,4 +1,4 @@
-package com.example.todofinal
+package com.example.todofinal.screens
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

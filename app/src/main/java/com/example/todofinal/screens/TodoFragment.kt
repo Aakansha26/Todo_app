@@ -1,24 +1,21 @@
-package com.example.todofinal
+package com.example.todofinal.screens
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.adapters.TextViewBindingAdapter.setText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import com.example.todofinal.*
 import com.example.todofinal.databinding.FragmentTodoBinding
-import kotlin.jvm.internal.MagicApiIntrinsics
 
 
 class TodoFragment : Fragment() {
@@ -33,7 +30,8 @@ class TodoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate<FragmentTodoBinding>(inflater,R.layout.fragment_todo, container, false)
+        binding = DataBindingUtil.inflate<FragmentTodoBinding>(inflater,
+            R.layout.fragment_todo, container, false)
         mainActivity = this.activity as MainActivity
 
         val spinner = binding.spinner
@@ -128,7 +126,6 @@ class TodoFragment : Fragment() {
             todo ?. let {
                 binding.editTextTodoTitle.setText(todo.todotitle)
                 binding.editTextTodoMsg.setText(todo.todomsg)
-                Log.i("Todofragment1", todo.toString())
             }
         })
 
@@ -138,9 +135,9 @@ class TodoFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         if(sharedViewModel.currentTodo.value == null)
-            mainActivity.supportActionBar?.title = "Create New Todo"
+            mainActivity.supportActionBar?.title = getString(R.string.create_new_todo)
         else
-            mainActivity.supportActionBar?.title = "Update Todo"
+            mainActivity.supportActionBar?.title = getString(R.string.update_todo)
     }
 
     override fun onDestroyView() {
