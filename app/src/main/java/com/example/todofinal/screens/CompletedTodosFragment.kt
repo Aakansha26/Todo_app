@@ -48,7 +48,7 @@ class CompletedTodosFragment : Fragment(), IListenerCompletedTodo {
 
     override fun onDeleteClicked(todo: Todo) {
         sharedViewModel.deleteTodo(todo)
-        Toast.makeText(activity, "Todo Deleted Successfully!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, getString(R.string.todo_deleted), Toast.LENGTH_SHORT).show()
     }
 
     override fun onResume() {

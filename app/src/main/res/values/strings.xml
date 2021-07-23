@@ -14,6 +14,11 @@
     <string name="update_todo">"Update Todo"</string>
     <string name="tab1text">Undone</string>
     <string name="tab2text">Completed</string>
+    <string name="todo_title_empty">"Todo Title cannot be empty"</string>
+    <string name="please_select_priority">"Please Select Priority"</string>
+    <string name="todo_added">"Todo Added Successfully!"</string>
+    <string name="todo_updated">"Todo Updated Successfully!"</string>
+    <string name="todo_deleted">"Todo Deleted Successfully!"</string>
 
 
 </resources>

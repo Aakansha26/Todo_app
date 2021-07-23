@@ -87,18 +87,18 @@ class TodoFragment : Fragment() {
 
             if(todotitle.isEmpty())
             {
-                Toast.makeText(activity, "Todo Title cannot be empty", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, getString(R.string.todo_title_empty), Toast.LENGTH_SHORT).show()
             }
             else if(priority_value == "Priority")
             {
-                Toast.makeText(activity, "Please Select Priority", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, getString(R.string.please_select_priority), Toast.LENGTH_SHORT).show()
             }
             else
             {
                 val updatedTodo = sharedViewModel.currentTodo.value
                 if ( updatedTodo == null) {
                     sharedViewModel.insertTodo(Todo(todotitle, todomsg, priority_value, false))
-                    Toast.makeText(activity, "Todo Added Successfully!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, getString(R.string.todo_added), Toast.LENGTH_SHORT).show()
                     view.findNavController().navigate(R.id.action_todoFragment_to_viewPagerFragment)
                 }
                 else {
@@ -108,7 +108,7 @@ class TodoFragment : Fragment() {
                     updatedTodo?.priority = priority_value
                     updatedTodo?. let {
                         sharedViewModel.updateTodo(updatedTodo!!)
-                        Toast.makeText(activity, "Todo Updated Successfully!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity, getString(R.string.todo_updated), Toast.LENGTH_SHORT).show()
                         view.findNavController().navigate(R.id.action_todoFragment_to_viewPagerFragment)
                     }
                 }
