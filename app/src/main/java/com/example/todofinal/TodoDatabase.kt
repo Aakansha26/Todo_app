@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = arrayOf(Todo::class), version = 2, exportSchema = false)
+@Database(entities = arrayOf(Todo::class), version = 3, exportSchema = false)
 abstract class TodoDatabase: RoomDatabase() {
     abstract fun getTodoDao(): TodoDao
 
@@ -24,6 +24,13 @@ abstract class TodoDatabase: RoomDatabase() {
 
         }
 
+        val migration_2_3: Migration = object: Migration(2,3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE Todo_table ADD COLUMN isCompleted INTEGER NOT NULL DEFAULT(0)")
+            }
+
+        }
+
         fun getDatabase(context: Context): TodoDatabase {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database
@@ -32,7 +39,7 @@ abstract class TodoDatabase: RoomDatabase() {
                     context.applicationContext,
                     TodoDatabase::class.java,
                     "todo_database"
-                ).addMigrations(migration_1_2)
+                ).addMigrations(migration_1_2, migration_2_3)
                     .build()
                 INSTANCE = instance
                 // return instance

@@ -1,6 +1,7 @@
 package com.example.todofinal
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.adapters.TextViewBindingAdapter.setText
@@ -36,15 +38,30 @@ class TodoFragment : Fragment() {
 
         val spinner = binding.spinner
 
+        val items= resources.getStringArray(R.array.priority_choices)
+        val spinnerAdapter= object : ArrayAdapter<String>(mainActivity,android.R.layout.simple_spinner_item, items) {
 
-        ArrayAdapter.createFromResource(
-            mainActivity,
-            R.array.priority_choices,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
+            override fun isEnabled(position: Int): Boolean {
+                return position != 0
+            }
+
+            override fun getDropDownView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup
+            ): View {
+                val view: TextView = super.getDropDownView(position, convertView, parent) as TextView
+                //set the color of first item in the drop down list to gray
+                if(position == 0) {
+                    view.setTextColor(Color.GRAY)
+                }
+                return view
+            }
+
         }
+
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = spinnerAdapter
 
         spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -52,7 +69,14 @@ class TodoFragment : Fragment() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val type = parent?.getItemAtPosition(position).toString()
+
+                if (position > 0) {
+                    val type = parent?.getItemAtPosition(position).toString()
+                }
+                else
+                {
+                    (view as TextView).setTextColor(Color.GRAY)
+                }
 
             }
 
@@ -63,41 +87,37 @@ class TodoFragment : Fragment() {
             val todomsg = binding.editTextTodoMsg.text.toString()
             val priority_value = spinner.selectedItem.toString()
 
-            val updatedTodo = sharedViewModel.currentTodo.value
-            if ( updatedTodo == null) {
-                if(todotitle.isNotEmpty()) {
-                    sharedViewModel.insertTodo(Todo(todotitle, todomsg, priority_value))
-                    Log.i("Todofragment1", "todo created")
+            if(todotitle.isEmpty())
+            {
+                Toast.makeText(activity, "Todo Title cannot be empty", Toast.LENGTH_SHORT).show()
+            }
+            else if(priority_value == "Priority")
+            {
+                Toast.makeText(activity, "Please Select Priority", Toast.LENGTH_SHORT).show()
+            }
+            else
+            {
+                val updatedTodo = sharedViewModel.currentTodo.value
+                if ( updatedTodo == null) {
+                    sharedViewModel.insertTodo(Todo(todotitle, todomsg, priority_value, false))
+                    Toast.makeText(activity, "Todo Added Successfully!", Toast.LENGTH_SHORT).show()
+                    view.findNavController().navigate(R.id.action_todoFragment_to_viewPagerFragment)
                 }
                 else {
-                    Toast.makeText(activity, "Todo Title cannot be empty", Toast.LENGTH_SHORT).show()
-                }
-            }
-            else {
 
-                Log.i("Todofragment1", updatedTodo.toString())
-                updatedTodo?.todotitle = todotitle
-                updatedTodo?.todomsg = todomsg
-                updatedTodo?.priority = priority_value
-                updatedTodo?. let {
-                    if(todotitle.isNotEmpty()) {
+                    updatedTodo?.todotitle = todotitle
+                    updatedTodo?.todomsg = todomsg
+                    updatedTodo?.priority = priority_value
+                    updatedTodo?. let {
                         sharedViewModel.updateTodo(updatedTodo!!)
-                    }
-                    else {
-                        Toast.makeText(activity, "Todo Title cannot be empty", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity, "Todo Updated Successfully!", Toast.LENGTH_SHORT).show()
+                        view.findNavController().navigate(R.id.action_todoFragment_to_viewPagerFragment)
                     }
                 }
-
-
             }
-            
+
 
             hideKeyboard(mainActivity)
-            view.findNavController().navigate(R.id.action_todoFragment_to_viewPagerFragment)
-            if (updatedTodo == null)
-                Toast.makeText(activity, "Todo Added Successfully!", Toast.LENGTH_SHORT).show()
-            else
-                Toast.makeText(activity, "Todo Updated Successfully!", Toast.LENGTH_SHORT).show()
 
 
         }

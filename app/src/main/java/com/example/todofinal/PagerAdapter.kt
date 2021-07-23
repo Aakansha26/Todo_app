@@ -17,7 +17,7 @@ class PagerAdapter(fm: Fragment): FragmentStateAdapter(fm) {
         return if (position == 0) {
             MainFragment()
         } else {
-            TodoFragment()
+            CompletedTodosFragment()
         }
     }
 }

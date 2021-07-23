@@ -1,9 +1,6 @@
 package com.example.todofinal
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper.getMainLooper
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +10,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.example.todofinal.databinding.FragmentCompletedTodosBinding
 import com.example.todofinal.databinding.FragmentMainBinding
 
-
-class MainFragment : Fragment(), IListenerMain {
+class CompletedTodosFragment : Fragment(), IListenerCompletedTodo {
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private lateinit var mainActivity: MainActivity
@@ -25,13 +22,12 @@ class MainFragment : Fragment(), IListenerMain {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        val binding = DataBindingUtil.inflate<FragmentMainBinding>(inflater,R.layout.fragment_main, container, false)
+        // Inflate the layout for this fragment
+        val binding: FragmentCompletedTodosBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_completed_todos, container, false)
         mainActivity = this.activity as MainActivity
 
-        //Initialising recycler adapter
-        val recyclerAdapter = RecyclerAdapter(this)
-        binding.recyclerView.apply {
+        val recyclerAdapter = RecyclerAdapter2(this)
+        binding.rvCompletedTodos.apply {
             adapter = recyclerAdapter
             addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
         }
@@ -42,18 +38,11 @@ class MainFragment : Fragment(), IListenerMain {
             }
         })
 
-
-        binding.floatingActionButton.setOnClickListener { view:View ->
+        binding.floatingActionButton2.setOnClickListener { view:View ->
             view.findNavController().navigate(R.id.action_viewPagerFragment_to_todoFragment)
         }
 
         return binding.root
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mainActivity.supportActionBar?.title = "Todo App"
     }
 
     override fun onDeleteClicked(todo: Todo) {
@@ -61,18 +50,9 @@ class MainFragment : Fragment(), IListenerMain {
         Toast.makeText(activity, "Todo Deleted Successfully!", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onEditClicked(view: View, todo: Todo) {
-        view.findNavController().navigate(R.id.action_viewPagerFragment_to_todoFragment)
-        sharedViewModel.changeCurrentTodo(todo)
+    override fun onResume() {
+        super.onResume()
+        mainActivity.supportActionBar?.title = "Todo App"
     }
-
-    override fun onTodoCompleted(todo: Todo) {
-        Toast.makeText(activity, "Todo '${todo.todotitle}' Completed Successfully!", Toast.LENGTH_SHORT).show()
-
-        sharedViewModel.markCompleted(todo)
-
-
-    }
-
 
 }

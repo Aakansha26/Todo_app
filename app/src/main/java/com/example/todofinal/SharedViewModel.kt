@@ -38,4 +38,10 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
     fun resetCurrentTodo() {
         currentTodo.value = null
     }
+
+    fun markCompleted(todo: Todo) {
+        todo.isCompleted = true
+        updateTodo(todo)
+
+    }
 }

@@ -1,56 +1,42 @@
 package com.example.todofinal
 
-import android.graphics.Color
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.CheckBox
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerAdapter(val listenermain: IListenerMain):
-    RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class RecyclerAdapter2(val listenerCompletedTodo: IListenerCompletedTodo):
+    RecyclerView.Adapter<RecyclerAdapter2.ViewHolder2>() {
 
     var alltodos =  ArrayList<Todo>()
-    var marktodocompleted = false
 
-    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-
-        val todotitle: CheckBox = itemView.findViewById<CheckBox>(R.id.todotitle_cb)
+    inner class ViewHolder2(itemView: View): RecyclerView.ViewHolder(itemView) {
+        val todotitle = itemView.findViewById<CheckBox>(R.id.todotitle_cb)
         val todomsg = itemView.findViewById<TextView>(R.id.todomsg_text)
         val priority = itemView.findViewById<TextView>(R.id.priority_tv)
         val delete_button = itemView.findViewById<ImageView>(R.id.delete_button)
-        val edit_button = itemView.findViewById<ImageView>(R.id.edit_button)
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder2 {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val viewHolder = ViewHolder(layoutInflater.inflate(R.layout.todo, parent, false))
+        val viewHolder = ViewHolder2(layoutInflater.inflate(R.layout.todo, parent, false))
         viewHolder.delete_button.setOnClickListener{
-            listenermain.onDeleteClicked(alltodos[viewHolder.adapterPosition])
-        }
-
-        viewHolder.edit_button.setOnClickListener{ view: View ->
-            listenermain.onEditClicked(view, alltodos[viewHolder.adapterPosition])
-
-        }
-
-        viewHolder.todotitle.setOnClickListener() {
-            viewHolder.todotitle.setChecked(true)
-            Handler(Looper.getMainLooper()).postDelayed({
-                listenermain.onTodoCompleted(alltodos[viewHolder.adapterPosition])
-            }, 1000)
-
-
+            listenerCompletedTodo.onDeleteClicked(alltodos[viewHolder.adapterPosition])
         }
 
         return viewHolder
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun getItemCount(): Int {
+        return alltodos.size
+    }
+
+    override fun onBindViewHolder(holder: RecyclerAdapter2.ViewHolder2, position: Int) {
         val todo = alltodos[position]
         holder.todotitle.text = todo.todotitle
         holder.todomsg.text = todo.todomsg
@@ -75,27 +61,19 @@ class RecyclerAdapter(val listenermain: IListenerMain):
             holder.priority.setBackgroundResource(R.color.light_orange)
     }
 
-    override fun getItemCount(): Int {
-        return alltodos.size
-    }
-
     fun updatelist(newlist: List<Todo>) {
         alltodos.clear()
-
         newlist.sortedWith(ComparePriority).reversed().forEach { todo ->
-            if(todo.isCompleted != true)
+            if(todo.isCompleted == true)
                 alltodos.add(todo)
         }
-
         notifyDataSetChanged()
     }
 
 
 }
 
-interface IListenerMain {
+interface IListenerCompletedTodo {
     fun onDeleteClicked(todo: Todo)
-    fun onEditClicked(view: View, todo: Todo)
-    fun onTodoCompleted(todo: Todo)
-}
 
+}
