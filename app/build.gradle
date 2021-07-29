@@ -78,4 +78,5 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     kapt 'androidx.databinding:databinding-compiler-common:3.4.0'
 
+    implementation("androidx.paging:paging-runtime:$paging_version")
 }

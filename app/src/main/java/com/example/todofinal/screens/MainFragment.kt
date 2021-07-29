@@ -41,11 +41,6 @@ class MainFragment : Fragment(), IListenerMain {
             }
         })
 
-
-        binding.floatingActionButton.setOnClickListener { view:View ->
-            view.findNavController().navigate(R.id.action_viewPagerFragment_to_todoFragment)
-        }
-
         return binding.root
 
     }

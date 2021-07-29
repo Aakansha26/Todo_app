@@ -45,4 +45,9 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
         updateTodo(todo)
 
     }
+
+    fun markInompleted(todo: Todo) {
+        todo.isCompleted = false
+        updateTodo(todo)
+    }
 }

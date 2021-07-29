@@ -39,16 +39,23 @@ class CompletedTodosFragment : Fragment(), IListenerCompletedTodo {
             }
         })
 
-        binding.floatingActionButton2.setOnClickListener { view:View ->
-            view.findNavController().navigate(R.id.action_viewPagerFragment_to_todoFragment)
-        }
-
         return binding.root
     }
 
     override fun onDeleteClicked(todo: Todo) {
         sharedViewModel.deleteTodo(todo)
         Toast.makeText(activity, getString(R.string.todo_deleted), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onEditClicked(view: View, todo: Todo) {
+        view.findNavController().navigate(R.id.action_viewPagerFragment_to_todoFragment)
+        sharedViewModel.changeCurrentTodo(todo)
+    }
+
+    override fun onTodoIncompleted(todo: Todo) {
+        Toast.makeText(activity, "Todo '${todo.todotitle}' Marked Undone", Toast.LENGTH_SHORT).show()
+
+        sharedViewModel.markInompleted(todo)
     }
 
     override fun onResume() {

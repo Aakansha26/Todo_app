@@ -99,7 +99,7 @@ class TodoFragment : Fragment() {
                 if ( updatedTodo == null) {
                     sharedViewModel.insertTodo(Todo(todotitle, todomsg, priority_value, false))
                     Toast.makeText(activity, getString(R.string.todo_added), Toast.LENGTH_SHORT).show()
-                    view.findNavController().navigate(R.id.action_todoFragment_to_viewPagerFragment)
+                    getActivity()?.onBackPressed()
                 }
                 else {
 
@@ -109,7 +109,7 @@ class TodoFragment : Fragment() {
                     updatedTodo?. let {
                         sharedViewModel.updateTodo(updatedTodo!!)
                         Toast.makeText(activity, getString(R.string.todo_updated), Toast.LENGTH_SHORT).show()
-                        view.findNavController().navigate(R.id.action_todoFragment_to_viewPagerFragment)
+                        getActivity()?.onBackPressed()
                     }
                 }
             }
@@ -126,6 +126,7 @@ class TodoFragment : Fragment() {
             todo ?. let {
                 binding.editTextTodoTitle.setText(todo.todotitle)
                 binding.editTextTodoMsg.setText(todo.todomsg)
+                binding.spinner.setSelection(items.indexOf(todo.priority))
             }
         })
 

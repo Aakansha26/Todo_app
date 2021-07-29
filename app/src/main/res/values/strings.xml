@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MY TODO APP</string>
+    <string name="app_name">TODO APP</string>
 
     <string-array name="priority_choices">
         <item>Priority</item>
@@ -19,6 +19,8 @@
     <string name="todo_added">"Todo Added Successfully!"</string>
     <string name="todo_updated">"Todo Updated Successfully!"</string>
     <string name="todo_deleted">"Todo Deleted Successfully!"</string>
+    <string name="update">Update Todo</string>
+    <string name="delete">Delete Todo</string>
 
 
 </resources>

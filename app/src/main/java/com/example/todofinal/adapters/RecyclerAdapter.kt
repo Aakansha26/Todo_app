@@ -13,7 +13,6 @@ class RecyclerAdapter(val listenermain: IListenerMain):
     RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
     var alltodos =  ArrayList<Todo>()
-    var marktodocompleted = false
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 

@@ -1,5 +1,7 @@
 package com.example.todofinal
 
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +21,7 @@ class RecyclerAdapter2(val listenerCompletedTodo: IListenerCompletedTodo):
         val todomsg = itemView.findViewById<TextView>(R.id.todomsg_text)
         val priority = itemView.findViewById<TextView>(R.id.priority_tv)
         val delete_button = itemView.findViewById<ImageView>(R.id.delete_button)
+        val edit_button = itemView.findViewById<ImageView>(R.id.edit_button)
 
     }
 
@@ -27,6 +30,20 @@ class RecyclerAdapter2(val listenerCompletedTodo: IListenerCompletedTodo):
         val viewHolder = ViewHolder2(layoutInflater.inflate(R.layout.todo, parent, false))
         viewHolder.delete_button.setOnClickListener{
             listenerCompletedTodo.onDeleteClicked(alltodos[viewHolder.adapterPosition])
+        }
+
+        viewHolder.edit_button.setOnClickListener{ view: View ->
+            listenerCompletedTodo.onEditClicked(view, alltodos[viewHolder.adapterPosition])
+
+        }
+
+        viewHolder.todotitle.setOnClickListener() {
+            viewHolder.todotitle.setChecked(false)
+            Handler(Looper.getMainLooper()).postDelayed({
+                listenerCompletedTodo.onTodoIncompleted(alltodos[viewHolder.adapterPosition])
+            }, 1200)
+
+
         }
 
         return viewHolder
@@ -75,5 +92,7 @@ class RecyclerAdapter2(val listenerCompletedTodo: IListenerCompletedTodo):
 
 interface IListenerCompletedTodo {
     fun onDeleteClicked(todo: Todo)
+    fun onEditClicked(view: View, todo: Todo)
+    fun onTodoIncompleted(todo: Todo)
 
 }

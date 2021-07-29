@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".screens.ViewPagerFragment"
-    android:orientation="vertical">
+    tools:context=".screens.ViewPagerFragment">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
@@ -16,6 +15,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tabGravity="fill"
         app:tabInlineLabel="true"
+        app:tabMaxWidth="0dp"
+        app:tabTextAppearance="@style/CustomTabText"
         app:tabMode="fixed">
 
     </com.google.android.material.tabs.TabLayout>
@@ -28,5 +29,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:backgroundTint="@color/purple_200"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
